@@ -88,6 +88,68 @@ deathStar.position.setX(-35);
 deathStar.position.setY(17);
 
 
+const raycaster = new THREE.Raycaster();
+const pointer = new THREE.Vector2();
+
+function onPointerMove( event ) {
+
+	// calculate pointer position in normalized device coordinates
+	// (-1 to +1) for both components
+
+	pointer.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+	pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+  raycaster.setFromCamera( pointer, camera );
+  const intersects = raycaster.intersectObjects( scene.children );
+
+  // for ( let i = 0; i < intersects.length; i ++ ) {
+
+  //   console.log(intersects[0].object);
+
+  // }
+
+}
+
+function onClick( event ) {
+  pointer.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+	pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+  raycaster.setFromCamera( pointer, camera );
+  const intersects = raycaster.intersectObjects( scene.children );
+
+  if(intersects[0].object == deathStar){
+    alert('You have been destroyed by the Death Star');
+  }
+  else if(intersects[0].object == torus){
+    alert('SPIIINNNN');
+  }
+  else if(intersects[0].object == ved){
+    alert("hello there");
+  }
+  else if(intersects.length > 0){
+    alert('PEW PEW');
+  }
+}
+
+// function shoot(){
+
+// }
+
+window.addEventListener( 'pointermove', onPointerMove );
+
+window.addEventListener('click', onClick);
+
+// deathStar.dispatchEvent(new MouseEvent('click'));
+// deathStar.addEventListener('click', () => {
+//   alert('You have been destroyed by the Death Star');
+// })
+// var el = document.getElementById('deathStar');
+// el.onclick = shoot();
+
+// function shoot(){
+//  alert('You have been destroyed by the Death Star');
+// }
+
 
 function moveCamera(){
   const t = document.body.getBoundingClientRect().top;
